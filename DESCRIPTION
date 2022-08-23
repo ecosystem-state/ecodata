@@ -1,0 +1,32 @@
+Package: ecodata
+Type: Package
+Title: Data Repository For Ecosystem State Projects
+Version: 0.0.1
+Authors@R: c(
+    person(c("Eric", "J."), "Ward", email = "eric.ward@noaa.gov",
+      role = c("aut", "cre")))
+Maintainer: Eric Ward <eric.ward@noaa.gov>
+Description: This package is a data repository for the RREAS, CalCOFI associated projects and is responsible for pulling data off of ERDDAP.
+License: GPL-3
+Encoding: UTF-8
+Depends:
+    R (>= 4.1.0)
+Imports:
+    ggplot2,
+    dplyr (>= 1.0.2),
+    lubridate,
+    rerddap,
+    sf,
+    rlang (>= 0.4.1)
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown,
+    devtools,
+    MASS
+URL: https://ecosystem-state.github.io/ecodata
+BugReports: https://github.com/ecosystem-state/ecodata/issues
+RoxygenNote: 7.2.0
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+SystemRequirements: GNU make
