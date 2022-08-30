@@ -1,4 +1,4 @@
-#' fit_bycatch is the primary function for fitting bycatch models to time series of takes and effort
+#' get_rreas is the primary function for retrieving RREAS data via ERDDAP
 #' @param min_year The minimum year used, defaults to 1985
 #' @param lat_min The minimum latitude boundary as an optional bounding box for stations to include, defaults to 36.544
 #' @param lat_max The maximum latitude boundary as an optional bounding box for stations to include, defaults to 38.1884

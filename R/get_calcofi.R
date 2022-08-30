@@ -1,4 +1,4 @@
-#' fit_bycatch is the primary function for fitting bycatch models to time series of takes and effort
+#' get_calcofi is the primary function for retrieving CalCOFI data via ERDDAP
 #' @param min_year The minimum year used, defaults to 1985
 #' @param min_years The minimum number of years with positive observations that a species needs to have to be included, defaults to 30
 #' @param min_n The minimum number of occurrences a species needs to have across all years, defaults to 300

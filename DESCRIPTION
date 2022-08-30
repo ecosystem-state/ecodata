@@ -16,6 +16,7 @@ Imports:
     dplyr (>= 1.0.2),
     lubridate,
     rerddap,
+    rnoaa,
     sf,
     rlang (>= 0.4.1)
 Suggests:

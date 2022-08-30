@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_calcofi.R
 \name{get_calcofi}
 \alias{get_calcofi}
-\title{fit_bycatch is the primary function for fitting bycatch models to time series of takes and effort}
+\title{get_calcofi is the primary function for retrieving CalCOFI data via ERDDAP}
 \usage{
 get_calcofi(min_year = 1985, min_years = 30, min_n = 300)
 }
@@ -17,7 +17,7 @@ get_calcofi(min_year = 1985, min_years = 30, min_n = 300)
 null, data file written to inst/ folder
 }
 \description{
-fit_bycatch is the primary function for fitting bycatch models to time series of takes and effort
+get_calcofi is the primary function for retrieving CalCOFI data via ERDDAP
 }
 \examples{
 \dontrun{

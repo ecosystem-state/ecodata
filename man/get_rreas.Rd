@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_rreas.R
 \name{get_rreas}
 \alias{get_rreas}
-\title{fit_bycatch is the primary function for fitting bycatch models to time series of takes and effort}
+\title{get_rreas is the primary function for retrieving RREAS data via ERDDAP}
 \usage{
 get_rreas(min_year = 1985, lat_max = 38.1884, lat_min = 36.544)
 }
@@ -17,7 +17,7 @@ get_rreas(min_year = 1985, lat_max = 38.1884, lat_min = 36.544)
 null, data file written to inst/ folder
 }
 \description{
-fit_bycatch is the primary function for fitting bycatch models to time series of takes and effort
+get_rreas is the primary function for retrieving RREAS data via ERDDAP
 }
 \examples{
 \dontrun{
