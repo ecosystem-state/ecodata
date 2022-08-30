@@ -1,9 +1,11 @@
 #' bc_lighthouse is downloads and processes data from the BC lighthouse archive
+#' @param years A single year, or vector of years -- if not included, all data is pulled
 #' @return null, data file written to inst/ folder
 #' @export
 #' 
 #' @import dplyr
 #' @importFrom tidyr pivot_longer
+#' @importFrom utils download.file unzip
 #'
 #' @examples
 #' \dontrun{

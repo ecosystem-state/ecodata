@@ -6,6 +6,9 @@
 \usage{
 get_buoy(years = NULL)
 }
+\arguments{
+\item{years}{A single year, or vector of years -- if not included, all data is pulled}
+}
 \value{
 null, data file written to inst/ folder
 }

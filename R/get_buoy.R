@@ -1,4 +1,5 @@
 #' get_buoy is a wrapper for rnoaa::buoy, to access the National Buoy Data Center
+#' @param years A single year, or vector of years -- if not included, all data is pulled
 #' @return null, data file written to inst/ folder
 #' @export
 #' 

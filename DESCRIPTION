@@ -18,6 +18,7 @@ Imports:
     rerddap,
     rnoaa,
     sf,
+    tidyr,
     rlang (>= 0.4.1)
 Suggests:
     testthat,
