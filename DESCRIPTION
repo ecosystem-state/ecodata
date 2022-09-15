@@ -19,7 +19,8 @@ Imports:
     rnoaa,
     sf,
     tidyr,
-    rlang (>= 0.4.1)
+    rlang (>= 0.4.1),
+    stringr
 Suggests:
     testthat,
     knitr,
@@ -28,7 +29,8 @@ Suggests:
     MASS
 URL: https://ecosystem-state.github.io/ecodata
 BugReports: https://github.com/ecosystem-state/ecodata/issues
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 SystemRequirements: GNU make
+LazyData: true

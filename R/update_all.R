@@ -11,4 +11,8 @@ update_all <- function() {
   get_calcofi(min_year = 1985, min_years = 30, min_n = 300)
   get_lighthouse()
   get_buoy()
+  get_dart()
+  get_bluebook()
+  get_calcofi_indices()
+  get_rreas_indices()
 }

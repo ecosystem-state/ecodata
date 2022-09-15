@@ -2,7 +2,7 @@
 % Please edit documentation in R/update_all.R
 \name{update_all}
 \alias{update_all}
-\title{get_buoy is a wrapper for rnoaa::buoy, to access the National Buoy Data Center}
+\title{update_all is a wrapper for updating all public datasets}
 \usage{
 update_all()
 }
@@ -10,7 +10,7 @@ update_all()
 null
 }
 \description{
-get_buoy is a wrapper for rnoaa::buoy, to access the National Buoy Data Center
+update_all is a wrapper for updating all public datasets
 }
 \examples{
 \dontrun{

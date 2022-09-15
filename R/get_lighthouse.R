@@ -1,4 +1,4 @@
-#' bc_lighthouse is downloads and processes data from the BC lighthouse archive
+#' get_lighthouse is downloads and processes data from the BC lighthouse archive
 #' @param years A single year, or vector of years -- if not included, all data is pulled
 #' @return null, data file written to inst/ folder
 #' @export
@@ -13,11 +13,34 @@
 #' }
 get_lighthouse <- function(years = NULL) {
 
+  bc_lighthouses <- read.csv("https://pacgis01.dfo-mpo.gc.ca/FGPPublic/BClightstations/BC_Lightstations_and_Other_Sample_Sites_V2.csv", skip = 2)
+  bc_lighthouses <- dplyr::select(bc_lighthouses, "LATITUDE..DECIMAL.DEGREES.", "LONGITUDE..DECIMAL.DEGREES.", "LIGHSTATION...LOCATION") %>%
+    dplyr::rename(lighthouse = "LIGHSTATION...LOCATION",
+      latitude = "LATITUDE..DECIMAL.DEGREES.",
+                  longitude = "LONGITUDE..DECIMAL.DEGREES.")
+  bc_lighthouses$lighthouse[which(bc_lighthouses$lighthouse == "AMPHITRITE POINT LIGHTSTATION")] = "Amphitrite_Point"
+  bc_lighthouses$lighthouse[which(bc_lighthouses$lighthouse == "BONILLA ISLAND LIGHTSTATION")] = "Bonilla_Point"
+  bc_lighthouses$lighthouse[which(bc_lighthouses$lighthouse == "CHROME ISLAND LIGHTSTATION")] = "Chrome_Island"
+  bc_lighthouses$lighthouse[which(bc_lighthouses$lighthouse == "DEPARTURE BAY (PBS)")] = "Departure_Bay_PBS"
+  bc_lighthouses$lighthouse[which(bc_lighthouses$lighthouse == "EGG ISLAND LIGHTSTATION")] = "Egg_Island"
+  bc_lighthouses$lighthouse[which(bc_lighthouses$lighthouse == "ENTRANCE ISLAND LIGHSTATION")] = "Entrance_Island"
+  bc_lighthouses$lighthouse[which(bc_lighthouses$lighthouse == "KAINS ISLAND LIGHSTATION")] = "Kains_Island"
+  bc_lighthouses$lighthouse[which(bc_lighthouses$lighthouse == "LANGARA POINT LIGHSTATION")] = "Langara_Island"
+  bc_lighthouses$lighthouse[which(bc_lighthouses$lighthouse == "MCINNES ISLAND LIGHSTATION")] = "McInnes_Island"
+  bc_lighthouses$lighthouse[which(bc_lighthouses$lighthouse == "NOOTKA POINT LIGHSTATION")] = "Nootka_Point"
+  bc_lighthouses$lighthouse[which(bc_lighthouses$lighthouse == "PINE ISLAND LIGHSTATION")] = "Pine_Island"
+  bc_lighthouses$lighthouse[which(bc_lighthouses$lighthouse == "RACE ROCKS LIGHSTATION")] = "Race_Rocks"
+  
   temp <- tempfile()
   download.file("https://pacgis01.dfo-mpo.gc.ca/FGPPublic/BCLightstations/DATA_-_Active_Sites.zip",temp)
   unzip(temp)
   
+  data("ocean_grid", envir=environment())
+  ocean_grid <- dplyr::select(ocean_grid, OBJECTID, OBJECT_X, OBJECT_Y) %>%
+    dplyr::rename(latitude = OBJECT_Y, longitude = OBJECT_X)
+  
   sites <- dir("DATA_-_Active_Sites")
+  
   for(i in 1:length(sites)) {
     files <- dir(paste0("DATA_-_Active_Sites/",sites[i]))
     files <- files[-grep("french",files)]
@@ -27,6 +50,15 @@ get_lighthouse <- function(years = NULL) {
     d <- tidyr::pivot_longer(d, cols = 2:13)
     d <- dplyr::rename(d, year = YEAR, month = name, sea_surface_temperature = value)
     d$lighthouse <- sites[i]
+    
+    # join in lat - lon
+    d <- dplyr::left_join(d, bc_lighthouses)
+    
+    # join in the Objectid
+    dist <- sqrt((ocean_grid$latitude - d$latitude[1])^2 + (ocean_grid$longitude - d$longitude[1])^2)
+    indx <- which.min(dist)[1]
+    d$OBJECTID <- ocean_grid$OBJECTID[indx]
+    
     if(i == 1) {
       all_data <- d
     } else {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_lighthouse.R
 \name{get_lighthouse}
 \alias{get_lighthouse}
-\title{bc_lighthouse is downloads and processes data from the BC lighthouse archive}
+\title{get_lighthouse is downloads and processes data from the BC lighthouse archive}
 \usage{
 get_lighthouse(years = NULL)
 }
@@ -13,7 +13,7 @@ get_lighthouse(years = NULL)
 null, data file written to inst/ folder
 }
 \description{
-bc_lighthouse is downloads and processes data from the BC lighthouse archive
+get_lighthouse is downloads and processes data from the BC lighthouse archive
 }
 \examples{
 \dontrun{

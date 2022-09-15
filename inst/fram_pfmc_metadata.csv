@@ -1,0 +1,11 @@
+﻿stock_id,numerical ID for each stock
+age,age class
+time_step,"FRAM time step. 1 = Oct through April, 2 = May - June, 3 = July through September . See https://framverse.github.io/fram_doc/calcs_data_chin.html"
+abundance,abundance in numbers of each run - age - area combination
+mature_abundance,abundance of mature Chinook for each run - age - area combination
+start_abundance,starting abundance prior to fishing
+mid_abundance,abundance in the middle of the time step
+stock_name,stock identifier in FRAM
+long_name,longer stock name
+shelton_stock,FRAM stock mapped to geographic groups in Shelton et al. 2019
+region,regional boxes used by Shelton et al. 2019
