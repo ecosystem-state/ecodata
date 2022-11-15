@@ -55,7 +55,7 @@ get_calcofi <- function(min_year = 1985, min_years = 30, min_n = 300) {
 
   # grab data for all species
   for (i in 1:length(calcofi_erddap)) {
-    out <- info(as.character(calcofi_erddap[i]))
+    out <- try(info(as.character(calcofi_erddap[i])), silent=TRUE)
     station_dat <- NULL
     try(
       station_dat <- tabledap(out, fields = c(
