@@ -18,49 +18,15 @@
 #' }
 get_calcofi <- function(min_year = 1985, min_years = 30, min_n = 300) {
 
-  # list of all datasets
-  calcofi_erddap <- c(
-    "erdCalCOFIlrvcntAtoAM",
-    "erdCalCOFIlrvcntANtoAR",
-    "erdCalCOFIlrvcntAStoBA",
-    "erdCalCOFIlrvcntBCEtoBZ",
-    "erdCalCOFIlrvcntCtoCE",
-    "erdCalCOFIlrvcntCDtoCH",
-    "erdCalCOFIlrvcntCItoCO",
-    "erdCalCOFIlrvcntCPtoDE",
-    "erdCalCOFIlrvcntDHtoEC",
-    "erdCalCOFIlrvcntEDtoEU",
-    "erdCalCOFIlrvcntEVtoGN",
-    "erdCalCOFIlrvcntGOtoHA",
-    "erdCalCOFIlrvcntHBtoHI",
-    "erdCalCOFIlrvcntHJtoID",
-    "erdCalCOFIlrvcntIEtoLA",
-    "erdCalCOFIlrvcntLBtoLI",
-    "erdCalCOFIlrvcntLJtoMA",
-    "erdCalCOFIlrvcntMBtoMO",
-    "erdCalCOFIlrvcntMPtoNA",
-    "erdCalCOFIlrvcntNBtoOL",
-    "erdCalCOFIlrvcntOMtoOX",
-    "erdCalCOFIlrvcntOYtoPI",
-    "erdCalCOFIlrvcntPLtoPO",
-    "erdCalCOFIlrvcntPPtoPZ",
-    "erdCalCOFIlrvcntQtoSA",
-    "erdCalCOFIlrvcntSBtoSC",
-    "erdCalCOFIlrvcntSDtoSI",
-    "erdCalCOFIlrvcntSJtoST",
-    "erdCalCOFIlrvcntSUtoTE",
-    "erdCalCOFIlrvcntTFtoU",
-    "erdCalCOFIlrvcntVtoZ"
-  )
-
   # grab data for all species
+  calcofi_erddap[1] <- "erdCalCOFIlrvcnt"
   for (i in 1:length(calcofi_erddap)) {
     out <- try(info(as.character(calcofi_erddap[i])), silent=TRUE)
     station_dat <- NULL
     try(
       station_dat <- tabledap(out, fields = c(
         "station", "line", "latitude",
-        "longitude", "time", "scientific_name", "larvae_10m2"
+        "longitude", "time", "scientific_name", "larvae_10m2", "common_name"
       )),
       silent = TRUE
     )
@@ -93,27 +59,27 @@ get_calcofi <- function(min_year = 1985, min_years = 30, min_n = 300) {
   stations <- read.csv("inst/CalCOFIStationOrder.csv")
   stations <- dplyr::rename(stations, station = Station, line = Line)
   dat <- dplyr::left_join(dat, stations[, c("station", "line", "StaType")])
-  dat <- dplyr::filter(dat, StaType == "ROS") %>%
+  dat <- dplyr::filter(dat, StaType == "ROS") |>
     dplyr::select(-StaType)
 
   # remove species with 0 records - cuts about 150
-  dat <- dplyr::group_by(dat, scientific_name) %>%
-    dplyr::mutate(tot = sum(larvae_10m2)) %>%
-    dplyr::filter(tot > 0) %>%
+  dat <- dplyr::group_by(dat, scientific_name) |>
+    dplyr::mutate(tot = sum(larvae_10m2)) |>
+    dplyr::filter(tot > 0) |>
     dplyr::select(-tot)
 
   # filter out species with 30 or more years of data
-  thresh_spp <- dplyr::group_by(dat, scientific_name, year) %>%
-    dplyr::summarise(s = sum(larvae_10m2, na.rm = T)) %>%
-    dplyr::group_by(scientific_name) %>%
-    dplyr::summarize(n = length(which(s != 0))) %>%
+  thresh_spp <- dplyr::group_by(dat, scientific_name, year) |>
+    dplyr::summarise(s = sum(larvae_10m2, na.rm = T)) |>
+    dplyr::group_by(scientific_name) |>
+    dplyr::summarize(n = length(which(s != 0))) |>
     dplyr::filter(n >= min_years)
   dat <- dplyr::filter(dat, scientific_name %in% thresh_spp$scientific_name)
 
   # further drop spp with <
-  dat <- dplyr::group_by(dat, scientific_name) %>%
-    dplyr::mutate(npos = length(which(larvae_10m2 > 0))) %>%
-    dplyr::filter(npos > min_n) %>%
+  dat <- dplyr::group_by(dat, scientific_name) |>
+    dplyr::mutate(npos = length(which(larvae_10m2 > 0))) |>
+    dplyr::filter(npos > min_n) |>
     dplyr::select(-npos)
 
   dat <- dplyr::filter(dat, scientific_name %in% c(
